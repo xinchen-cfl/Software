@@ -1,0 +1,5 @@
+interface:
+  display_name: "Ship Software Safely"
+  short_description: "Production-minded delivery from code to rollback"
+  default_prompt: "Use $ship-software-safely to implement and deliver this change with traceable checks, immutable artifacts, safe promotion, and rollback."
+
