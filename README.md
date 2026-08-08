@@ -20,6 +20,7 @@ handbook/   给人阅读、复习和继续补充
 1. [`01-delivery-mental-model.md`](handbook/01-delivery-mental-model.md)：先理解所有对象与边界。
 2. [`02-tradeploy-case-study.md`](handbook/02-tradeploy-case-study.md)：复盘一次真实的本地、GitHub、Linux 服务器实践。
 3. [`03-release-checklists.md`](handbook/03-release-checklists.md)：实际工作时快速检查。
+4. [`04-zero-project-foundation.md`](handbook/04-zero-project-foundation.md)：空项目应该建立哪些最小工程基础。
 
 ## 核心原则
 
