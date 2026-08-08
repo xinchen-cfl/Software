@@ -14,7 +14,7 @@
 - [ ] diff 没有秘密、调试代码、误删或无关改动
 - [ ] 项目要求的 lint/type/build/test 已通过
 
-## PR 与 CI
+## 拉取请求与持续集成
 
 - [ ] commit 和 push 成功
 - [ ] PR base/head 正确
@@ -22,14 +22,14 @@
 - [ ] rebase/冲突处理后重新验证受影响内容
 - [ ] 识别合并后真正进入目标分支的 commit
 
-## Artifact
+## 运行产物
 
 - [ ] artifact 来自合并后的目标分支 commit
 - [ ] 平台与运行环境兼容
 - [ ] 记录完整 digest，不使用 `latest`
 - [ ] registry 中可以拉取该 digest
 
-## Staging
+## 预发布
 
 - [ ] 记录部署前 artifact
 - [ ] health/readiness 通过
@@ -38,7 +38,7 @@
 - [ ] 本次关键功能 smoke test 通过
 - [ ] production 未发生变化
 
-## Production
+## 生产
 
 - [ ] 明确 production 授权和影响范围
 - [ ] 已记录 rollback target
@@ -47,7 +47,7 @@
 - [ ] 关键业务行为通过
 - [ ] 共享主机上的相关服务未受影响
 
-## Rollback
+## 回滚
 
 - [ ] previous artifact 存在且可获取
 - [ ] 记录被撤回 artifact

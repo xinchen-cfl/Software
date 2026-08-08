@@ -17,13 +17,13 @@ GitHub
 ├── main image workflow
 └── GHCR immutable image
 
-Linux server
+Linux 服务器
 ├── tradeploy-staging     127.0.0.1:18080
 ├── tradeploy-production  127.0.0.1:28080
 └── deploy / inspect / rollback scripts
 ```
 
-staging 和 production 使用独立 Compose project、容器、网络、端口和状态目录。它们运行同一个镜像 digest，但不是同一组容器。
+预发布和生产使用独立的 Compose 项目、容器、网络、端口和状态目录。它们运行同一个镜像摘要，但不是同一组容器。
 
 ## 3. 从空仓库到可运行服务
 
@@ -40,7 +40,7 @@ staging 和 production 使用独立 Compose project、容器、网络、端口�
 
 共享 venv 可以服务多个 worktree，但依赖必须兼容。同一项目的 worktree 通常共享依赖更快；需要测试不同依赖组合时才拆分环境。worktree 隔离代码目录，不等于虚拟环境或容器隔离。
 
-## 4. Git 和 worktree 实践
+## 4. Git 和工作树实践
 
 每个并发功能可以拥有自己的 branch 和 worktree。功能完成后：
 
@@ -101,9 +101,9 @@ merge main
 
 服务器侧不进行业务开发。它只拉取并运行 GitHub registry 中已经构建的镜像。
 
-## 7. CI 与部署脚本
+## 7. 持续集成与部署脚本
 
-PR workflow 运行快速测试，main workflow 在测试通过后构建并推送镜像。PR 检查是否阻止合并，由 GitHub ruleset 或 branch protection 决定；仅存在 workflow 不代表 merge 被强制阻塞。
+拉取请求工作流运行快速测试，主分支工作流在测试通过后构建并推送镜像。拉取请求检查是否阻止合并，由 GitHub 规则集或分支保护决定；仅存在工作流不代表合并被强制阻塞。
 
 部署脚本负责：
 

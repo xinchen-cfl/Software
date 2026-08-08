@@ -1,4 +1,4 @@
-# Software Engineering Delivery
+# 软件工程交付
 
 这个仓库沉淀从本地开发到生产发布的软件工程经验，分为两个入口：
 
@@ -7,7 +7,7 @@ skill/      给 Codex 直接安装和执行
 handbook/   给人阅读、复习和继续补充
 ```
 
-## 直接使用 Skill
+## 直接使用技能
 
 技能位于 [`skill/ship-software-safely`](skill/ship-software-safely)。它用于让 Codex 在真实项目中执行一条可追踪的软件交付链：
 
@@ -24,12 +24,12 @@ handbook/   给人阅读、复习和继续补充
 ## 核心原则
 
 ```text
-merged commit
-→ CI build once
-→ immutable artifact digest
-→ staging verification
-→ same digest in production
-→ known rollback target
+合并后的提交
+→ 持续集成只构建一次
+→ 不可变产物摘要
+→ 预发布验证
+→ 同一个摘要进入生产
+→ 已知且可用的回滚目标
 ```
 
 仓库只记录可公开复用的工程知识，不保存服务器密码、Token、私钥或生产密钥。

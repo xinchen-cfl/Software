@@ -1,89 +1,89 @@
 ---
 name: ship-software-safely
-description: Apply a traceable software delivery workflow from local implementation through Git, pull requests, CI, immutable artifacts, staging, production, rollback, and cleanup. Use when Codex is asked to implement, merge, release, deploy, promote, rollback, or diagnose delivery state for a repository, especially with GitHub, containers, registries, worktrees, servers, or multiple environments.
+description: 将可追踪的软件交付流程应用到真实项目，覆盖本地实现、Git、拉取请求、持续集成、不可变产物、预发布、生产发布、回滚和清理。用于 Codex 实现、合并、发布、部署、晋级、回滚或诊断仓库交付状态，尤其适用于涉及 GitHub、容器、镜像仓库、工作树、服务器或多套环境的任务。
 ---
 
-# Ship Software Safely
+# 安全交付软件
 
-Ship the smallest safe change. Adapt commands to the repository; do not assume a language, CI provider, registry, or runtime.
+交付能够安全运行的最小改动。根据仓库实际情况选择命令，不预设编程语言、持续集成平台、镜像仓库或运行环境。
 
-## Rules
+## 核心规则
 
-- Inspect repository instructions, branch, worktrees, dirty files, remotes, CI, build, and deploy conventions before changing state.
-- Preserve unrelated and unknown work.
-- Do not infer authorization to merge, deploy, delete remote state, or change production.
-- Build once and promote the same immutable artifact through environments.
-- Use a full digest when available; do not deploy `latest`.
-- Verify resulting state, not only command success.
-- Re-run checks only after relevant state changes or at an independent boundary.
-- Record the rollback target before replacing production.
+- 改变状态前，检查仓库指令、分支、工作树、未提交文件、远端、持续集成、构建和部署约定。
+- 保留无关改动和来源不明的工作。
+- 不擅自推断合并、部署、删除远端状态或修改生产环境的授权。
+- 只构建一次，让同一个不可变产物依次经过不同环境。
+- 有完整摘要时使用摘要，不使用 `latest` 部署。
+- 验证最终状态，不能只看命令是否成功。
+- 只有相关状态变化或跨越独立边界后，才重新运行检查。
+- 替换生产版本前，先记录回滚目标。
 
-## Workflow
+## 工作流程
 
-### 1. Develop
+### 1. 开发
 
-Start from the intended base commit on a feature branch. Use a separate worktree only for concurrent or isolated work.
+从预期的基础提交创建功能分支。只有并发或隔离开发确有需要时才创建独立工作树。
 
-1. Add or identify a failing check for the intended behavior.
-2. Implement the smallest coherent change.
-3. Run focused checks, then broader repository-required checks.
-4. Inspect status and diff; commit only the intended patch.
+1. 为目标行为新增或找到一个会失败的检查。
+2. 实现最小且完整的改动。
+3. 先运行针对性检查，再运行仓库要求的更广检查。
+4. 检查状态和差异，只提交预期补丁。
 
-### 2. Integrate
+### 2. 集成
 
-Push and open a PR when the repository uses PRs. Let CI reproduce checks in a clean environment. Rebase when required; after published history is rewritten, use `--force-with-lease`.
+仓库采用拉取请求时，推送分支并创建拉取请求。让持续集成在干净环境中复现检查。需要变基时执行变基；已经发布的历史被改写后，使用 `--force-with-lease`。
 
-After merge, fetch the target branch and identify its actual commit. Squash and rebase may preserve the patch while changing commit IDs.
+合并后拉取目标分支并识别真正进入目标分支的提交。压缩合并和变基可能保留相同补丁，但会改变提交编号。
 
-### 3. Build
+### 3. 构建
 
-Build the deployable artifact from the merged target-branch commit. Record:
-
-```text
-source commit:
-artifact reference:
-artifact digest:
-platform:
-```
-
-CI success is not deployment. A movable tag is not artifact identity.
-
-### 4. Stage
-
-Capture the current staging artifact, deploy the new digest, then verify:
-
-- process/container health and readiness
-- version signal
-- configured artifact and actual artifact ID
-- critical behavior changed by the release
-- production remained unchanged
-
-### 5. Produce
-
-Before production, state the target digest, current artifact, rollback target, affected services, and verification commands. Deploy the exact staging digest and repeat the applicable checks.
-
-Check colocated services when ports, proxy, networks, storage, or host resources are shared.
-
-### 6. Roll back
-
-Rollback by redeploying a known previous artifact, not by undoing Git or rebuilding old source. Verify version, identity, health, critical behavior, and unaffected environments. Treat database rollback separately.
-
-### 7. Clean up
-
-Fetch and prune, confirm the patch exists on the target branch, inspect every worktree for dirty or untracked files, remove obsolete worktrees, then delete obsolete branches. Never discard uncommitted, unpushed, unknown work.
-
-## Completion evidence
-
-Do not claim completion until applicable fields are known:
+从目标分支合并后的提交构建可部署产物，记录：
 
 ```text
-source commit:
-CI/check result:
-artifact digest:
-staging artifact / version / health:
-production artifact / version / health:
-rollback target and rollback result:
-branch/worktree cleanup state:
+源代码提交：
+产物引用：
+产物摘要：
+运行平台：
 ```
 
-Read [references/release-principles.md](references/release-principles.md) only when Git identity, test boundaries, artifact identity, or environment identity is unclear.
+持续集成成功不等于已经部署。可移动标签不等于产物身份。
+
+### 4. 预发布
+
+先记录预发布环境当前产物，再部署新摘要，并验证：
+
+- 进程或容器健康状态和就绪状态；
+- 版本信号；
+- 配置产物与实际产物编号；
+- 本次发布改变的关键行为；
+- 生产环境没有发生变化。
+
+### 5. 生产发布
+
+部署生产环境前，明确目标摘要、当前产物、回滚目标、受影响服务和验证命令。部署预发布已经验证的同一个摘要，并重复适用检查。
+
+当端口、代理、网络、存储或主机资源共享时，同时检查共存服务。
+
+### 6. 回滚
+
+通过重新部署已知的旧产物完成回滚，不撤销 Git，也不重新构建旧源代码。验证版本、身份、健康状态、关键行为和未受影响的环境。数据库回滚需要单独处理。
+
+### 7. 清理
+
+获取并清理远端跟踪状态，确认补丁已经进入目标分支，检查每个工作树中的未提交和未跟踪文件，先删除废弃工作树，再删除废弃分支。绝不丢弃未提交、未推送或来源不明的工作。
+
+## 完成证据
+
+以下适用字段尚未明确时，不得宣称完成：
+
+```text
+源代码提交：
+持续集成或检查结果：
+产物摘要：
+预发布产物 / 版本 / 健康状态：
+生产产物 / 版本 / 健康状态：
+回滚目标和回滚结果：
+分支与工作树清理状态：
+```
+
+只有在 Git 身份、测试边界、产物身份或环境身份不清楚时，才读取 [references/release-principles.md](references/release-principles.md)。

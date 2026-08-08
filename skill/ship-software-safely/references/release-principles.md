@@ -1,35 +1,35 @@
-# Release principles
+# 软件交付原则
 
-## Identities
+## 对象身份
 
-- worktree: filesystem checkout, possibly containing uncommitted state
-- branch: movable pointer to a commit chain
-- commit SHA: source history identity
-- image tag: movable label
-- image digest: immutable artifact identity
-- container ID: one running instance
+- 工作树：文件系统中的检出目录，可能含有未提交状态；
+- 分支：指向提交历史末端的可移动指针；
+- 提交编号：源代码历史身份；
+- 镜像标签：可移动标签；
+- 镜像摘要：不可变产物身份；
+- 容器编号：一个运行实例的身份。
 
-`fetch` updates remote knowledge; `pull` integrates it locally. Rebase and squash can change commit IDs while preserving a patch.
+`fetch` 更新远端状态认知，`pull` 将远端历史整合到本地。变基和压缩合并可能在保留补丁的同时改变提交编号。
 
-## Independent evidence
-
-```text
-focused test -> changed behavior
-local fence -> intended patch and nearby behavior
-CI -> clean reproducible environment
-artifact check -> packaged software can run
-staging -> production-like integration
-production check -> real environment runs the intended artifact
-```
-
-Do not repeat an unchanged check without a new boundary or relevant state change.
-
-## Promotion invariant
+## 独立证据
 
 ```text
-merged commit -> build once -> immutable digest -> staging -> same digest in production
+针对性测试 → 改变的行为是否正确
+本地围栏   → 补丁范围和附近行为是否正确
+持续集成   → 能否在干净环境复现
+产物检查   → 打包后的软件能否运行
+预发布     → 能否完成生产式集成
+生产检查   → 真实环境是否运行目标产物
 ```
 
-Rollback selects a previously built artifact. Server-side state should record current, previous, actual artifact ID, and the artifact withdrawn by rollback. Keep durable artifacts in the registry.
+没有新边界或相关状态变化时，不重复未改变的检查。
 
-Directories alone do not isolate staging and production. Check processes, networks, ports, configuration, secrets, data, permissions, hosts, and traffic.
+## 产物晋级不变量
+
+```text
+合并后的提交 → 构建一次 → 不可变摘要 → 预发布 → 同一摘要进入生产
+```
+
+回滚是选择以前已经构建的产物。服务器状态应记录当前产物、上一个产物、实际产物编号和回滚时撤下的产物。持久产物保存在镜像仓库中。
+
+目录本身不能隔离预发布和生产。应检查进程、网络、端口、配置、密钥、数据、权限、主机和流量。
