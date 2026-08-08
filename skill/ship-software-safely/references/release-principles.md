@@ -33,4 +33,3 @@ merged commit -> build once -> immutable digest -> staging -> same digest in pro
 Rollback selects a previously built artifact. Server-side state should record current, previous, actual artifact ID, and the artifact withdrawn by rollback. Keep durable artifacts in the registry.
 
 Directories alone do not isolate staging and production. Check processes, networks, ports, configuration, secrets, data, permissions, hosts, and traffic.
-

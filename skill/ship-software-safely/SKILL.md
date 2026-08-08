@@ -87,4 +87,3 @@ branch/worktree cleanup state:
 ```
 
 Read [references/release-principles.md](references/release-principles.md) only when Git identity, test boundaries, artifact identity, or environment identity is unclear.
-
