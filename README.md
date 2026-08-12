@@ -1,19 +1,12 @@
 # 软件工程交付
 
-这个仓库沉淀从本地开发到生产发布的软件工程经验，分为两个入口：
+这个仓库独立保存从本地开发到生产发布的软件工程学习与复习资料：
 
 ```text
-skill/      给 Codex 直接安装和执行
 handbook/   给人阅读、复习和继续补充
 ```
 
-## 直接使用技能
-
-技能位于 [`skill/ship-software-safely`](skill/ship-software-safely)。它用于让 Codex 在真实项目中执行一条可追踪的软件交付链：
-
-```text
-开发 → Git/PR → CI → 不可变产物 → staging → production → rollback → cleanup
-```
+本仓库不参与 Harness 安装、运行或规则同步，也不再提供可执行 AI Skill。实战研发能力统一在私有 Harness 仓库维护；这里的内容仅供人学习，不构成 Agent 当前行为规则。
 
 ## 复习路线
 
